@@ -8,4 +8,20 @@ follow [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-m
 
 Also plan to read the "Flask Web Development" book
 
+## Structure
 
+```
+.
+├── app.py
+├── LICENSE
+├── pymonitor.py
+└── README.md
+```
+
+### pymonitor.py
+
+pymonitor is used to auto-restart web server when any file changes
+
+## License 
+
+MIT
