@@ -22,3 +22,15 @@ use OAuth, here is a [blog](http://blog.miguelgrinberg.com/post/oauth-authentica
 - `url_for`
 - `session`
 - `oid.try_login`
+
+## login view function
+
+- `oid.loginhandler`
+- `g.user`
+- `url_for`
+- `db.session`
+- `oid.try_login`
+
+## login callback
+
+- `oid.after_login`
