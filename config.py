@@ -10,6 +10,13 @@ OPENID_PROVIDERS = [
     {'name': 'Flickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}]
 
+OAUTH_CREDENTIALS = {
+        'facebook': {
+            'id': '155828014769435',
+            'secret': '365178be5a2a1b0303a68530feb2b286'
+        }    
+    }
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # required by `FLASK-SQLAlchemy`
