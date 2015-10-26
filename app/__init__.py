@@ -9,8 +9,10 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)  # initialize database
 
-from app import views, models
-
 lm = LoginManager()
 lm.init_app(app)
+lm.login_view = 'login'
+# the Flask-OPenID requeires a path to a temp folder where files can be stored
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
+
+from app import views, models
