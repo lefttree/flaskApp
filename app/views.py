@@ -3,6 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User
+from oauth import OAuthSignIn
 
 
 @app.route('/')
@@ -42,6 +43,9 @@ def login():
                             form=form,
                             providers=app.config['OPENID_PROVIDERS'])
 
+@app.route('/oauth')
+def oauth():
+    return render_template('oauth.html')
 
 # loads a user from database, used by Flask-Login
 # user ids in Flask-Login are always unicode strings, so convert to int is necessary
@@ -85,4 +89,37 @@ def before_request():
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect(url_for('index'))
+
+
+#################################
+# OAuth views
+#################################
+
+@app.route('/authorize/<provider>')
+def oauth_authorize(provider):
+    if not g.user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
+
+@app.route('/callback/<provider>')
+def oauth_callback(provider):
+    if not g.user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    social_id, username, email = oauth.callback()
+    if social_id is None:
+        flash('Authentication failed.')
+        return redirect(url_for('index'))
+    user = User.query.filter_by(social_id=social_id).first()
+    if not user:
+        user = User(social_id=social_id, nickname=username, email=email)
+        db.session.add(user)
+        db.session.commit()
+    remember_me = False
+    if 'remember_me' in session:
+        remember_me = session['remember_me']
+        session.pop('remember_me', None)
+    login_user(user, remember=remember_me)
     return redirect(url_for('index'))
