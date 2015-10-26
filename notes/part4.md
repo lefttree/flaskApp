@@ -18,6 +18,8 @@ To keep track of database updates for us.
 For our little application we will use a `sqlite` database. The `sqlite` databases are the most convenient choice for small applications, as each database is stored in a `single file` and there is no need to start a database server.
 
 - Add `SQLALCHEMY_DATABASE_URI` and `SQLALCHEMY_MIGRATE_REPO` in `config.py`.
+- `SQLALCHEMY_DATABASE_URI` is required by the Flask-SQLAlchemy extension, the path of our database file
+- `SQLALCHEMY_MIGRATE_REPO` is the folder where we will store the SQLAlchemy-migrate data files
 - init databse in `__init__.py`
 
 ## The databse model
