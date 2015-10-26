@@ -7,8 +7,9 @@ from .models import User
 
 @app.route('/')
 @app.route('/index')
+@login_required  # add login_required
 def index():
-    user = {'nickname': 'lefttree'}
+    user = g.user
     posts = [  # fake array of posts
         {
             'author': {'nickname': 'John'},
@@ -26,7 +27,7 @@ def index():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@oid.loginhandler
+@oid.loginhandler # tells Flask-OpenID this is our login view function
 def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('index')) # clean than redirect('/index')
@@ -42,6 +43,8 @@ def login():
                             providers=app.config['OPENID_PROVIDERS'])
 
 
+# loads a user from database, used by Flask-Login
+# user ids in Flask-Login are always unicode strings, so convert to int is necessary
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -49,20 +52,37 @@ def load_user(id):
 
 @oid.after_login
 def after_login(resp):
+    # validation
     if resp.email is None or resp.email == "":
         flash('Invalid login. Please try again.')
         return redirect(url_for('login'))
+    # search our database for the user
     user = User.query.filter_by(email=resp.email).first()
+    # if not found, this is a new user, add into databse
     if user is None:
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
-        user = User(nicnname=nickname, email=resp.email)
+        user = User(nickname=nickname, email=resp.email)
         db.session.add(user)
         db.session.commit()
     remember_me = False
     if 'remember_me' in session:
         remember_me = session['remember_me']
         session.pop('remember_me', None)
-    login_user(user, remember = remember_me)
+    login_user(user, remember=remember_me)
     return redirect(request.args.get('next') or url_for('index'))
+
+
+# Any function decorated with before_request will run before
+# the view function
+# `current_user` is set by Flask-Login, so store it in g.user
+@app.before_request
+def before_request():
+    g.user = current_user
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
