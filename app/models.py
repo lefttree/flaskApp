@@ -7,8 +7,9 @@ class User(UserMixin, db.Model):
     social_id = db.Column(db.String(64), nullable=False, unique=True)
     nickname = db.Column(db.String(64), nullable=False, index=True, unique=True)
     email = db.Column(db.String(120), nullable=True, index=True, unique=True)
+    avatarLarge = db.Column(db.String, nullable=True, index=True, unique=True)
+    avatarSmall = db.Column(db.String, nullable=True, index=True, unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-
 
 # class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)

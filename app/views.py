@@ -43,10 +43,6 @@ def login():
                             form=form,
                             providers=app.config['OPENID_PROVIDERS'])
 
-@app.route('/oauth')
-def oauth():
-    return render_template('oauth.html')
-
 # loads a user from database, used by Flask-Login
 # user ids in Flask-Login are always unicode strings, so convert to int is necessary
 @lm.user_loader
@@ -96,6 +92,11 @@ def logout():
 # OAuth views
 #################################
 
+@app.route('/oauth')
+def oauth():
+    return render_template('oauth.html')
+
+
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
     if not g.user.is_anonymous:
@@ -108,13 +109,13 @@ def oauth_callback(provider):
     if not g.user.is_anonymous:
         return redirect(url_for('index'))
     oauth = OAuthSignIn.get_provider(provider)
-    social_id, username, email = oauth.callback()
+    social_id, username, email, avatarLarge, avatarSmall = oauth.callback()
     if social_id is None:
         flash('Authentication failed.')
         return redirect(url_for('index'))
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
-        user = User(social_id=social_id, nickname=username, email=email)
+        user = User(social_id=social_id, nickname=username, email=email, avatarLarge=avatarLarge, avatarSmall=avatarSmall)
         db.session.add(user)
         db.session.commit()
     remember_me = False
@@ -123,3 +124,18 @@ def oauth_callback(provider):
         session.pop('remember_me', None)
     login_user(user, remember=remember_me)
     return redirect(url_for('index'))
+
+@app.route('/user/<nickname>')
+@login_required
+def user(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+    if user == None:
+        flash('User %s not found.' % nickname)
+        return redirect(url_for('index'))
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html',
+                            user=user,
+                            posts=posts)

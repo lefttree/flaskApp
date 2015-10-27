@@ -72,12 +72,16 @@ class FacebookSignIn(OAuthSignIn):
         me = oauth_session.get('me').json()
         print("-----------------------")
         print(me)
+        avatarLarge = oauth_session.get('https://graph.facebook.com/' + me['id'] + '?fields=picture.type(large)', params={'format': 'json'})
+        avatarSmall = oauth_session.get('https://graph.facebook.com/' + me['id'] + '?fields=picture.type(small)', params={'format': 'json'})
         return (
             'facebook$' + me['id'],
             # me.get('email').split('@')[0],
             # me.get('email')
             me.get('name'),
-            me.get('name') + "@facebook.com"
+            me.get('name') + "@facebook.com",
+            avatarLarge.json()['picture']['data']['url'],
+            avatarSmall.json()['picture']['data']['url']
         )
 
 # class TwitterSignIn(OAuthSignIn):
