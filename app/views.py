@@ -124,6 +124,9 @@ def oauth_callback(provider):
         user = User(social_id=social_id, nickname=uickname, email=email, avatarLarge=avatarLarge, avatarSmall=avatarSmall)
         db.session.add(user)
         db.session.commit()
+        # follow him/herself
+        db.session.add(user.follow(user))
+        db.session.commit()
     remember_me = False
     if 'remember_me' in session:
         remember_me = session['remember_me']
@@ -131,6 +134,7 @@ def oauth_callback(provider):
     login_user(user, remember=remember_me)
     return redirect(url_for('index'))
 
+# User profile view
 @app.route('/user/<nickname>')
 @login_required
 def user(nickname):
@@ -146,6 +150,7 @@ def user(nickname):
                             user=user,
                             posts=posts)
 
+# User about_me edit view
 @app.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
@@ -172,3 +177,41 @@ def internal_error(error):
     #roll database back to a working session
     db.session.rollback()
     return render_template('500.html'), 500
+
+@app.route('/follow/<nickname>')
+@login_required
+def follow(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+    if user is None:
+        flash('User %s not found.' % nickname)
+        return redirect(url_for('index'))
+    if user == g.user:
+        flash('You can\'t follow yourself!')
+        return redirect(url_for('user', nickname=nickname))
+    u = g.user.follow(user)
+    if u is None:
+        flash('Cannot follow ' + nickname + '.')
+        return redirect(url_for('user', nickname=nickname))
+    db.session.add(u)
+    db.session.commit()
+    flash('You are now following ' + nickname + '!')
+    return redirect(url_for('user', nickname=nickname))
+
+@app.route('/unfollow/<nickname>')
+@login_required
+def unfollow(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+    if user is None:
+        flash('User %s not found.' % nickname)
+        return redirect(url_for('index'))
+    if user == g.user:
+        flash('You can\'t unfollow yourself!')
+        return redirect(url_for('user', nickname=nickname))
+    u = g.user.unfollow(user)
+    if u is None:
+        flash('Cannot unfollow ' + nickname + '.')
+        return redirect(url_for('user', nickname=nickname))
+    db.session.add(u)
+    db.session.commit()
+    flash('You have stopped following ' + nickname + '.')
+    return redirect(url_for('user', nickname=nickname))
