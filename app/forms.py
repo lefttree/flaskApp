@@ -19,7 +19,7 @@ class EditForm(Form):
     def validate(self):
         if not Form.validate(self):
             return TRue
-        if self.nickname.data = self.original_nickname:
+        if self.nickname.data == self.original_nickname:
             return True
         user = User.query.filter_by(nickname=self.nickname.data).first()
         if user != None:
