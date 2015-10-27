@@ -4,15 +4,15 @@
     <table>
         <tr valigh="top">
             <td><img src="{{ user.avatarLarge }}"></td>
-            <td><h1>User: {{ user.nickname }}!</h1></td>
+            <td>
+                <h1>{{ user.nickname }}!</h1>
+                {% if user.about_me %}<p>{{ user.about_me}}</p>{% endif %}
+                {% if user.last_seen %}<p><i>Last seen on: {{ user.last_seen}}</i></p>{% endif %}
+            </td>
         </tr>
     </table>
         <hr>
     {% for post in posts %}
-    <table>
-        <tr valign="top">
-            <td><img src="{{ user.avatarSmall}} "></td><td><i>{{ post.author.nickname }} says: </i>{{ post.body }}</td><I>
-        </tr>
-    </table>
+        {% include 'post.html' %}
     {% endfor %}
 {% endblock %}

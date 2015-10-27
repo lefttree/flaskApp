@@ -10,6 +10,8 @@ class User(UserMixin, db.Model):
     avatarLarge = db.Column(db.String, nullable=True, index=True, unique=True)
     avatarSmall = db.Column(db.String, nullable=True, index=True, unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    about_me = db.Column(db.String(140))
+    last_seen = db.Column(db.DateTime)
 
 # class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
