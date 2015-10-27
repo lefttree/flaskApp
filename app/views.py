@@ -120,7 +120,8 @@ def oauth_callback(provider):
         return redirect(url_for('index'))
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
-        user = User(social_id=social_id, nickname=username, email=email, avatarLarge=avatarLarge, avatarSmall=avatarSmall)
+        nickname = User.make_unique_nickname(username)
+        user = User(social_id=social_id, nickname=uickname, email=email, avatarLarge=avatarLarge, avatarSmall=avatarSmall)
         db.session.add(user)
         db.session.commit()
     remember_me = False
@@ -148,7 +149,7 @@ def user(nickname):
 @app.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
-    form = EditForm()
+    form = EditForm(g.user.nickname)
     if form.validate_on_submit():
         g.user.nickname = form.nickname.data
         g.user.about_me = form.about_me.data
