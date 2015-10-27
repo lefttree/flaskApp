@@ -3,6 +3,7 @@ import os
 WTF_CSRF_ENABLE = True
 SECRET_KEY = 'you-will-never-guess'
 
+# OpenID Providers
 OPENID_PROVIDERS = [
     {'name': 'Google', 'url': 'https://www.google.com/accounts/o8/id'},
     {'name': 'Yahoo', 'url': 'https://me.yahoo.com'},
@@ -10,6 +11,7 @@ OPENID_PROVIDERS = [
     {'name': 'Flickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}]
 
+# OAuth Providers
 OAUTH_CREDENTIALS = {
         'facebook': {
             'id': '155828014769435',
@@ -24,5 +26,14 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 # where we store the SQLALchemy-migrate data files
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
+# email server settings
 
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 25
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+
+# administrator list
+
+ADMINS = ['you@example.com']
 
