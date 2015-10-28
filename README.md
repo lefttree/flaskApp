@@ -14,14 +14,12 @@ Also plan to read the "Flask Web Development" book
 .
 ├── app
 │   ├── __init__.py
-│   ├── __pycache__
-│   │   ├── __init__.cpython-34.pyc
-│   │   └── views.cpython-34.pyc
 │   ├── run.py
 │   ├── static
 │   ├── templates
 │   └── views.py
 ├── app.py
+├── tests.py
 ├── LICENSE
 ├── pymonitor.py
 ├── README.md
