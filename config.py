@@ -16,7 +16,11 @@ OAUTH_CREDENTIALS = {
         'facebook': {
             'id': '155828014769435',
             'secret': '365178be5a2a1b0303a68530feb2b286'
-        }    
+        },
+        'twitter': {
+            'id': 'p2ddznP04r7HGfaDxcJrSNYZa',
+            'secret': 'ZmfhBCcZqpqB2whhnfSuSYtWQcPUQzhrqw9mthASTL319TiyPH'    
+        }
     }
 
 basedir = os.path.abspath(os.path.dirname(__file__))
