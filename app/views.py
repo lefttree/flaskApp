@@ -6,6 +6,7 @@ from .models import User, Post
 from oauth import OAuthSignIn
 from datetime import datetime
 from config import POSTS_PER_PAGE
+from .emails import follower_notification
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -212,4 +213,5 @@ def unfollow(nickname):
     db.session.add(u)
     db.session.commit()
     flash('You have stopped following ' + nickname + '.')
+    follower_notification(user, g.user)
     return redirect(url_for('user', nickname=nickname))
