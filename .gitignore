@@ -1,1 +1,6 @@
 *.pyc
+db_repository/*
+flask/*
+tmp/*
+app.db
+test.db
