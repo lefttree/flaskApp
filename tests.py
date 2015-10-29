@@ -22,6 +22,7 @@ class TestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+
     def test_make_unique_nickname(self):
         u = User(social_id='12345',nickname='john', email='john@example.com')
         db.session.add(u)
