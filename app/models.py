@@ -1,5 +1,6 @@
 from app import db
 from flask.ext.login import UserMixin
+import re
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -34,6 +35,12 @@ class User(UserMixin, db.Model):
                 break
             version += 1
         return new_nickname
+
+    
+    @staticmethod
+    def make_valid_nickname(nickname):
+        return re.sub('[^a-zA-Z0-9_\.\s]', '', nickname)
+
 
     def follow(self, user):
         if not self.is_following(user):

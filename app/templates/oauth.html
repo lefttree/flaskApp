@@ -3,13 +3,13 @@
 {% block content %}
 <html>
     <head>
-        <title>OAuth Flask Demo</title>
+        <title>OAuth Login</title>
     </head>
     <body>
-        <h1>Please Sign In</h1>
+        <h1>{{ _('Please Sign In') }}</h1>
         {% include 'flash.html' %}
         <div class="well">
-            <div class="help-block">Click on your social ID</div>
+            <div class="help-block">{{ _('Click on your social ID') }}</div>
             <div class="control-group">
                 <a href="{{ url_for('oauth_authorize', provider='facebook')}}"><img src="/static/img/facebook.png" class="img-polaroid" style="margin:2px;width:64px"/></a>
                 <a href="{{ url_for('oauth_authorize', provider='twitter') }}"><img src="/static/img/twitter.png" class="img-polaroid" style="margin:2px;width:64px"/></a>
