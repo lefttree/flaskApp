@@ -10,8 +10,7 @@
                 <div class="controls">
                     {{ form.nickname(maxlength=64,class="span4")}}
                     {% for error in form.errors.nickname %}
-                        <br><span style="color:red;">[{{error}}]</span>
-                            <span class="help-inline">[{{error}}]</span><br>
+                            <span style="color:red" class="help-inline">[{{error}}]</span><br>
                     {% endfor %}
                 </div>
             </div>
@@ -20,7 +19,7 @@
                 <div class="controls">
                     {{ form.about_me(cols = 64, rows = 4, class = "span4") }}
                     {% for error in form.errors.about_me %}
-                        <span class="help-inline">[{{error}}]</span><br>
+                        <span style="color:red" class="help-inline">[{{error}}]</span><br>
                     {% endfor %}
                 </div>
             </div>
