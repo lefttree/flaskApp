@@ -9,6 +9,8 @@ from .momentjs import momentjs
 
 app = Flask(__name__)
 app.config.from_object('config')
+# export our class as a global variable to all templates
+app.jinja_env.globals['momentjs'] = momentjs
 db = SQLAlchemy(app)  # initialize database
 # This tells jinja2 to expost our class as a global variable to all templates
 app.jinja_env.globals['momentjs'] = momentjs
