@@ -1,4 +1,5 @@
 import os
+# -*- coding: utf-8 -*-
 
 WTF_CSRF_ENABLE = True
 SECRET_KEY = 'you-will-never-guess'
@@ -45,3 +46,9 @@ ADMINS = ['bylixiang@gmail.com']
 
 # pagination
 POSTS_PER_PAGE = 5
+
+# avaiable languages
+LANGUAGES = {
+    'en': 'English',
+    'zh': 'Chinese'
+}
