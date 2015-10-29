@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from flask.ext.babel import gettext
+from flask.ext.babel import lazy_gettext
 from app import app, db, lm, babel
 from .forms import LoginForm, EditForm, PostForm
 from .models import User, Post
@@ -21,7 +21,7 @@ def index(page=1):
         post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user)
         db.session.add(post)
         db.session.commit()
-        flash(gettext('Your post is now live!'))
+        flash(lazy_gettext('Your post is now live!'))
         return redirect(url_for('index'))  # avoid re-submiting
     posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
     return render_template('index.html',
@@ -87,6 +87,7 @@ def before_request():
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
+        g.locale = get_locale()
 
 
 @app.route('/logout')
@@ -168,7 +169,7 @@ def edit():
         g.user.about_me = form.about_me.data
         db.session.add(g.user)
         db.session.commit()
-        flash(gettext('Your changes have been saved.'))
+        flash(lazy_gettext('Your changes have been saved.'))
         return redirect(url_for('edit'))
     else:
         form.nickname.data = g.user.nickname
