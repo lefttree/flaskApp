@@ -100,6 +100,8 @@ def logout():
 
 @app.route('/oauth')
 def oauth():
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('index')) # clean than redirect('/index')
     return render_template('oauth.html')
 
 
@@ -128,6 +130,11 @@ def oauth_callback(provider):
         # follow him/herself
         db.session.add(user.follow(user))
         db.session.commit()
+    else:
+        u = user.follow(user)
+        if u:
+            db.session.add(u)
+            db.session.commit()
     remember_me = False
     if 'remember_me' in session:
         remember_me = session['remember_me']
