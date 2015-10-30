@@ -55,3 +55,7 @@ LANGUAGES = {
 
 MS_TRANSLATOR_CLIENT_ID = "microblog0123"
 MS_TRANSLATOR_CLIENT_SECRET = "Dv39oiHLS7uGVPqqQullkaBE7x+/X3/9/sqK6sGqva4="
+
+SQLALCHEMY_RECORD_QUERIES = True
+# slow database query threshold (in seconds)
+DATABASE_QUERY_TIMEOUT = 0.5
