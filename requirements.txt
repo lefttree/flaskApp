@@ -13,7 +13,7 @@ Flask-WhooshAlchemy==0.56
 Flask-WTF==0.12
 flipflop==1.0
 guess==1.0.5
-guess-language-spirit==0.5a4
+guess-language-spirit==0.5a5
 gunicorn==19.3.0
 itsdangerous==0.24
 Jinja2==2.8
