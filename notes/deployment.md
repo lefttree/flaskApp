@@ -27,3 +27,31 @@ Functions affected:
 ## requirements file
 
 `pip freeze > requirements.txt`
+
+## Procfile
+
+```
+web: gunicorn app:app
+init: python db_create.py
+upgrade: python db_upgrade.py
+```
+
+## Deploy 
+
+### push
+
+to push our app to the heroku, just `git push heroku master`
+
+### first time run
+
+`heroku run init`
+
+### update
+
+`git push` then `heroku run upgrade`
+
+### logging
+
+`heroku logs` to see all the logs
+`heroku logs --source app` to see only app related logs
+
