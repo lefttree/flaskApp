@@ -191,6 +191,14 @@ def edit():
         form.about_me.data = g.user.about_me
     return render_template('edit.html', form=form)
 
+@app.route('/user_list')
+@login_required
+def user_list():
+    users = User.query.all()
+    if users == None:
+        flash('No user are found!')
+        return redirect(url_for('index'))
+    return render_template('user_list.html', users=users)
 
 @app.errorhandler(404)
 def not_found_error(error):
