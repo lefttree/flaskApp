@@ -7,12 +7,9 @@ try:
 except ImportError:
     from urllib.parse import urlencode  # Python 3
 import json
-import requests
-import urllib
 from flask.ext.babel import gettext
 from config import MS_TRANSLATOR_CLIENT_ID, MS_TRANSLATOR_CLIENT_SECRET
 import traceback
-from app import azure_translate_api
 
 def microsoft_translate(text, sourceLang, destLang):
     if MS_TRANSLATOR_CLIENT_ID == "" or MS_TRANSLATOR_CLIENT_SECRET == "":
