@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from flask.ext.babel import lazy_gettext
 from app import app, db, lm, babel
@@ -9,6 +10,7 @@ from datetime import datetime
 from config import POSTS_PER_PAGE, LANGUAGES
 from .emails import follower_notification
 from guess_language import guessLanguage
+from .translate import microsoft_translate
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -233,3 +235,14 @@ def unfollow(nickname):
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(LANGUAGES.keys())
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate():
+    return jsonify({
+        'text': microsoft_translate(
+            request.form['text'],
+            request.form['sourceLang'],
+            request.form['destLang']
+            )
+        })
