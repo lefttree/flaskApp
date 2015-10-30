@@ -28,7 +28,7 @@ mail = Mail(app)
 
 from app import views, models
 
-if not app.debug:
+if not app.debug and os.environ.get('HEROKU') is None:
     import logging
     from logging.handlers import SMTPHandler, RotatingFileHandler
     credentials = None
@@ -42,6 +42,13 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
+    app.logger.info('microblog startup')
+
+if os.environ.get('HEROKU') is not None:
+    import logging
+    stream_handler = logging.StreamHandler()
+    app.logger.addHandler(stream_handler)
+    app.logger.setLevel(logging.INFO)
     app.logger.info('microblog startup')
 
 
