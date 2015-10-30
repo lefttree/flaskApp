@@ -8,6 +8,7 @@ from oauth import OAuthSignIn
 from datetime import datetime
 from config import POSTS_PER_PAGE, LANGUAGES
 from .emails import follower_notification
+from guess_language import guessLanguage
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -18,7 +19,10 @@ def index(page=1):
     # add page argument
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user)
+        language = guessLanguage(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:
+            language = ''
+        post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user, language=language)
         db.session.add(post)
         db.session.commit()
         flash(lazy_gettext('Your post is now live!'))
