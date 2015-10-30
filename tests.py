@@ -1,14 +1,18 @@
 #!flask/bin/python
+# -*- coding: utf-8 -*-
+
+from coverage import coverage
+cov = coverage(branch=True, omit=['flask/*', 'tests.py'])
+cov.start()
 
 import os
 import unittest
 
 from config import basedir
 from app import app, db
-from app.models import User
 from datetime import datetime, timedelta
 from app.models import User, Post
-
+from app.translate import microsoft_translate
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -35,6 +39,8 @@ class TestCase(unittest.TestCase):
         nickname2 = User.make_unique_nickname('john')
         assert nickname2 != 'john'
         assert nickname2 != nickname
+        nickname3 = User.make_unique_nickname('susan')
+        assert nickname3 == 'susan'
 
     def test_follow(self):
         u1 = User(social_id='1', nickname='john')
@@ -100,8 +106,6 @@ class TestCase(unittest.TestCase):
         f2 = u2.followed_posts().all()
         f3 = u3.followed_posts().all()
         f4 = u4.followed_posts().all()
-        print(f1)
-        print(f2)
         assert len(f1) == 3
         assert len(f2) == 2
         assert len(f3) == 2
@@ -111,6 +115,36 @@ class TestCase(unittest.TestCase):
         assert f3 == [p4, p3]
         assert f4 == [p4]
 
+    def test_user(self):
+        # make valid nicknames
+        n = User.make_valid_nickname('John_123')
+        assert n == 'John_123'
+        n = User.make_valid_nickname('Johny_[123]\n')
+        assert n == 'John_123'
+        # create a user
+        u = User(social_id='123',nickname='john')
+        db.session.add(u)
+        db.session.commit()
+        assert u.is_authenticated is True
+        assert u.is_active is True
+        assert u.is_anonymous is False
+        assert u.id == int(u.get_id())
+
+    def test_translation(self):
+        assert microsoft_translate(u'English', 'en', 'es') == u'Inglés'
+        assert microsoft_translate(u'Español', 'es', 'en') == u'Spanish'
+
 
 if __name__ == '__main__':
-    unittest.main()
+    try:
+        unittest.main()
+    except:
+        pass
+    cov.stop()
+    cov.save()
+    print("\n\nCoverage Report:\n")
+    cov.report()
+    print("HTML version: " + os.path.join(basedir, "tmp/coverage/index.html"))
+    cov.html_report(directory='tmp/coverage')
+    cov.erase()
+
