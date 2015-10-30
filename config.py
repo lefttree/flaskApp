@@ -52,3 +52,6 @@ LANGUAGES = {
     'en': 'English',
     'zh': 'Chinese'
 }
+
+MS_TRANSLATOR_CLIENT_ID = "microblog0123"
+MS_TRANSLATOR_CLIENT_SECRET = "Dv39oiHLS7uGVPqqQullkaBE7x+/X3/9/sqK6sGqva4="
