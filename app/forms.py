@@ -33,5 +33,5 @@ class EditForm(Form):
         return True
 
 class PostForm(Form):
-    post = StringField('post', validators=[DataRequired()])
+    post = TextAreaField('post', validators=[length(min=0, max=140), DataRequired()])
 
