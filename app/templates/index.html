@@ -5,16 +5,16 @@
     <div class="well">
         <form class="form-horizontal" action="" method="post" name="post">
             {{ form.hidden_tag() }}
-            <div class="control-group{% if form.errors.post %} error {% endif %}">
+            <div class="form-group{% if form.errors.post %} error {% endif %}">
                 <label class="control-label" for="post">{{ _('Say Something:') }}</label>
                 <div class="controls">
-                    {{ form.post(cols = 64, rows = 4, class = "span4")}}
+                    {{ form.post(cols = 48, rows = 4, class = "span4 col-md-5 col-xs-12")}}
                     {% for error in form.errors.post %}
                         <span class="help-inline">[{{error}}]</span><br>
                     {% endfor %}
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <div class="controls">
                     <input class="btn btn-primary" type="submit" value="{{ _('Post!') }}">
                 </div>
