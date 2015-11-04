@@ -6,4 +6,4 @@ import os, sys
 
 # import app variable from our app package
 from app import app
-app.run(debug=True)
+app.run(host='0.0.0.0', debug=True)
