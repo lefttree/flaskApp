@@ -2,10 +2,10 @@
 
 {% block content %}
     {% include 'flash.html' %}
-    <div class="well well-large" style="height: 210px;">
-        <div class="pull-right">
-            <img src="{{user.avatarLarge}}" class="img-polaroid" style="height:100%">
-        </div>
+    <div class="well well-large span10 col-md-10 col-xs-12">
+        <!--<div class="pull-right">-->
+            <img src="{{user.avatarLarge}}" class="img-rounded pull-right" style="max-height:80%">
+        <!--</div>-->
         <h1>{{user.nickname}}</h1>
         {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
         {% if user.last_seen %}<p><em>{{ _('Last seen on:') }} {{ momentjs(user.last_seen).calendar() }}</em></p>{% endif %}
