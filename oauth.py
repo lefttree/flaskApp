@@ -117,10 +117,9 @@ class TwitterSignIn(OAuthSignIn):
         print("-----------------")
         print(me)
         social_id = 'twitter$' + str(me.get('id'))
-        # avatarLarge = oauth_session.get("https://pbs.twimg.com/profile_images/" + me['id'] + "/7df3h38zabcvjylnyfe3_bigger.png")
-        # avatarSmall = oauth_session.get("https://pbs.twimg.com/profile_images/" + me['id'] + "/7df3h38zabcvjylnyfe3_normal.png")
-        avatarLarge = me['profile_image_url_https']
-        avatarSmall = me['profile_image_url_https']
+        profile_image_url_https = me['profile_image_url_https']
+        avatarLarge = profile_image_url_https.replace('_normal', '')
+        avatarSmall = profile_image_url_https.replace('_normal', '_bigger')
         
         username = me.get('screen_name')
         return social_id, username, None, avatarLarge, avatarSmall    # Twitter does not provide email
