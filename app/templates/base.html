@@ -2,9 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--Enables responsive mode-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/static/js/moment.min.js"></script>
         {% if title %}
             <title>{{ title }} - microblog</title>
         {% else %}
@@ -49,7 +49,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <script src="/static/js/moment.min.js"></script>
     <script src="/static/js/translate.js"></script>
     {% if g.locale != 'en' %}
     <script src="/static/js/moment-{{ g.locale }}.min.js"></script>
