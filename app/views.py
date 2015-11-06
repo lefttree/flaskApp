@@ -141,7 +141,6 @@ def oauth_callback(provider):
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
         nickname = User.make_unique_nickname(username)
-        nickname = User.make_unique_nickname(username)
         user = User(social_id=social_id, nickname=nickname, email=email, avatarLarge=avatarLarge, avatarSmall=avatarSmall)
         db.session.add(user)
         db.session.commit()
