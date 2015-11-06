@@ -8,6 +8,11 @@ follow [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-m
 
 Also plan to read the "Flask Web Development" book
 
+## To Do
+
+- integrate the layout with latest bootstrap and ajust responsive rendering
+- add personal note which supports markdown
+
 ## Structure
 
 ```
