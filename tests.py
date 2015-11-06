@@ -119,7 +119,7 @@ class TestCase(unittest.TestCase):
         # make valid nicknames
         n = User.make_valid_nickname('John_123')
         assert n == 'John_123'
-        n = User.make_valid_nickname('Johny_[123]\n')
+        n = User.make_valid_nickname('John_[123]\n')
         assert n == 'John_123'
         # create a user
         u = User(social_id='123',nickname='john')
