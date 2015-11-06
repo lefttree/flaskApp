@@ -8,8 +8,10 @@ from flask.ext.babel import Babel, lazy_gettext
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 from .momentjs import momentjs
 from flask.json import JSONEncoder
+from flask.ext.compress import Compress
 
 app = Flask(__name__)
+Compress(app)
 app.config.from_object('config')
 db = SQLAlchemy(app)  # initialize database
 # This tells jinja2 to expost our class as a global variable to all templates
