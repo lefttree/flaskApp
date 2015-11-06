@@ -4,24 +4,22 @@
         {% for user in users %}
             {% if user != g.user %}
             <div class="container">
-                <div class="span10 col-md-10 col-xs-12">
-                    <div class="well">
-                        <!--<div class="pull-right">-->
-                            <img src="{{user.avatarLarge}}" class="img-rounded pull-right" style="max-width: 80%; max-height:80%">
-                        <!--</div>-->
-                        <h1>{{user.nickname}}</h1>
-                        {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
-                        {% if user.last_seen %}<p><em>{{ _('Last seen on:') }} {{ momentjs(user.last_seen).calendar() }}</em></p>{% endif %}
-                        <p>{{ _('Followers:') }} {{user.followers.count() - 1}} | {{ _('Following:') }} {{user.followed.count() - 1}} |
-                        {% if user.id == g.user.id %}
-                        <a href="{{url_for('edit')}}">{{ _('Edit your profile') }}</a>
-                        {% elif not g.user.is_following(user) %}
-                        <a href="{{url_for('follow', nickname = user.nickname)}}">{{ _('Follow') }}</a>
-                        {% else %}
-                        <a href="{{url_for('unfollow', nickname = user.nickname)}}">{{ _('Unfollow') }}</a>
-                        {% endif %}
-                        </p>
-                    </div>
+                <div class="well span10 col-md-10 col-xs-12">
+                    <!--<div class="pull-right">-->
+                        <img src="{{user.avatarLarge}}" class="img-rounded pull-right" style="max-width: 80%; max-height:80%">
+                    <!--</div>-->
+                    <h1>{{user.nickname}}</h1>
+                    {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
+                    {% if user.last_seen %}<p><em>{{ _('Last seen on:') }} {{ momentjs(user.last_seen).calendar() }}</em></p>{% endif %}
+                    <p>{{ _('Followers:') }} {{user.followers.count() - 1}} | {{ _('Following:') }} {{user.followed.count() - 1}} |
+                    {% if user.id == g.user.id %}
+                    <a href="{{url_for('edit')}}">{{ _('Edit your profile') }}</a>
+                    {% elif not g.user.is_following(user) %}
+                    <a href="{{url_for('follow', nickname = user.nickname)}}">{{ _('Follow') }}</a>
+                    {% else %}
+                    <a href="{{url_for('unfollow', nickname = user.nickname)}}">{{ _('Unfollow') }}</a>
+                    {% endif %}
+                    </p>
                 </div>
             </div>
             {% endif %}
