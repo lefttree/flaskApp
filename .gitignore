@@ -5,4 +5,3 @@ flask/*
 tmp/*
 app.db
 test.db
-config.py
