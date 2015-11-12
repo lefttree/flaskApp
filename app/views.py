@@ -5,7 +5,7 @@ from flask.ext.babel import lazy_gettext
 from flask.ext.sqlalchemy import get_debug_queries
 from app import app, db, lm, babel
 from .forms import LoginForm, EditForm, PostForm
-from .models import User, Post
+from .models import User, Post, Note
 from oauth import OAuthSignIn
 from datetime import datetime
 from config import POSTS_PER_PAGE, LANGUAGES, DATABASE_QUERY_TIMEOUT
@@ -277,3 +277,35 @@ def delete(id):
     db.session.commit()
     flash(lazy_gettext('Your post has been deleted.'))
     return redirect(url_for('index'))
+
+@app.route('/notes', methods=['GET', 'POST'])
+@login_required
+def notes():
+    if request.method == 'POST':
+        if request.form.get('content'):
+            note = Note(content=request.form['content'], timestamp=datetime.utcnow(), note_author=g.user)
+            db.session.add(note)
+            db.session.commit()
+            print(note)
+            rendered = render_template('note.html', note=note)
+            return jsonify({'note': rendered, 'success': True})
+        return jsonify({'success': False})
+    user = g.user
+    notes = user.sorted_notes().all()
+    print(notes)
+    return render_template('notes.html', notes=notes)
+    
+    # notes = Note.public().limit(50)
+    # # notes = []
+    # return render_template('index.html', note=notes)
+
+
+@app.route('/archive/<int:pk>', methods=['GET', 'POST'])
+def archive(pk):
+    note = Note.query.filter_by(id=pk).first()
+    if note is None:
+        return redirect(url_for('notes'))
+    note.archived = True
+    db.session.add(note)
+    db.session.commit()
+    return jsonify({'success': True})
