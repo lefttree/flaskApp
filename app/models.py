@@ -1,4 +1,7 @@
-from app import db
+from flask import Markup
+from markdown import markdown
+from micawber import parse_html
+from app import db, oembed
 from flask.ext.login import UserMixin
 import re
 
@@ -15,6 +18,7 @@ class User(UserMixin, db.Model):
     avatarLarge = db.Column(db.String, nullable=True, index=True, unique=True)
     avatarSmall = db.Column(db.String, nullable=True, index=True, unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    notes = db.relationship('Note', backref='note_author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime)
     followed = db.relationship('User',
@@ -61,6 +65,9 @@ class User(UserMixin, db.Model):
     def sorted_posts(self):
         return self.posts.order_by(Post.timestamp.desc())
 
+    def sorted_notes(self):
+        return self.notes.order_by(Note.timestamp.desc())
+
 # class User(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     # nickname = db.Column(db.String(64), index=True, unique=True)
@@ -103,4 +110,28 @@ class Post(db.Model):
 # Since this is an auxiliary table that has no data other than foreign keys
 # we use the lower level APIs in flask-sqlalchemy to create the table
 
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    archived = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def html(self):
+        """
+        Run the content throught markdown, converts links into objects
+        and return the html code
+        """
+        html = parse_html(
+                markdown(self.content),
+                oembed,
+                maxwidth=300,
+                urlize_all=True)
+        return Markup(html)
+
+    @staticmethod
+    def public():
+        return (Note
+                .query
+                .filter_by(archived=False)
+                )

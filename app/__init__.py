@@ -10,12 +10,18 @@ from .momentjs import momentjs
 from flask.json import JSONEncoder
 from flask.ext.compress import Compress
 
+from micawber import bootstrap_basic
+
 app = Flask(__name__)
 Compress(app)
 app.config.from_object('config')
 db = SQLAlchemy(app)  # initialize database
 # This tells jinja2 to expost our class as a global variable to all templates
 app.jinja_env.globals['momentjs'] = momentjs
+
+# oembed
+
+oembed = bootstrap_basic()
 
 # babel
 babel = Babel(app)
