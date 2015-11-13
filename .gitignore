@@ -1,6 +1,5 @@
 *.pyc
 app/*pyc
-db_repository/*
 flask/*
 tmp/*
 app.db
