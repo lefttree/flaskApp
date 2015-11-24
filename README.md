@@ -10,8 +10,10 @@ Also plan to read the "Flask Web Development" book
 
 ## To Do
 
-- integrate the layout with latest bootstrap and ajust responsive rendering
-- add personal note which supports markdown
+- Integrate the layout with latest bootstrap and ajust responsive rendering(done)
+- Add personal note which supports markdown(done)
+- Create Restfult apis
+- Change form post to Ajax, maybe use ReactJS or AngularJS
 
 ## Structure
 
@@ -67,7 +69,6 @@ Also plan to read the "Flask Web Development" book
 │   │           └── messages.po
 │   ├── views.py
 ├── babel.cfg
-├── config.py
 ├── db_create.py
 ├── db_downgrade.py
 ├── db_migrate.py
