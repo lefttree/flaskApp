@@ -12,7 +12,7 @@ Also plan to read the "Flask Web Development" book
 
 - Integrate the layout with latest bootstrap and ajust responsive rendering(done)
 - Add personal note which supports markdown(done)
-- Create Restfult apis
+- Create Restfult apis(flask-restful)
 - Change form post to Ajax, maybe use ReactJS or AngularJS
 
 ## Structure
